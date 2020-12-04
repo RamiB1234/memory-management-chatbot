@@ -8,6 +8,8 @@
 #include "graphedge.h"
 #include "chatbot.h"
 
+int ChatBot::_cnt = 0;
+
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
@@ -15,6 +17,7 @@ ChatBot::ChatBot()
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
+    ++_cnt;
 }
 
 // constructor WITH memory allocation
@@ -28,22 +31,85 @@ ChatBot::ChatBot(std::string filename)
 
     // load image into heap memory
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
+    ++_cnt;
 }
 
 ChatBot::~ChatBot()
 {
-    std::cout << "ChatBot Destructor" << std::endl;
-
-    // deallocate heap memory
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    --_cnt;
+    if(_cnt==0)
     {
-        delete _image;
-        _image = NULL;
+        std::cout << "ChatBot Destructor" << std::endl;
+
+        // deallocate heap memory
+        if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+        {
+            delete _image;
+            _image = NULL;
+        }
     }
 }
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot& source)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    _image = source._image;
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+    ++_cnt;
+}
+
+ChatBot& ChatBot::operator=(const ChatBot& source)
+{
+    std::cout << "ChatBot Copy Assignment" << std::endl;
+    if (this == &source)
+        return *this;
+    
+    _image = source._image;
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+    ++_cnt;
+    return *this;
+}
+
+ChatBot::ChatBot(ChatBot &&source)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    _image = source._image;
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+
+    source._image = NULL;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+
+}
+
+ChatBot& ChatBot::operator=(ChatBot &&source)
+{
+    std::cout << "ChatBot Move Assignment" << std::endl;
+    if (this == &source)
+        return *this;
+    
+    _image = source._image;
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+
+    source._image = NULL;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
