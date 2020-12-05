@@ -7,10 +7,10 @@ This is a chat bot program where users can ask questions about some aspects of m
 This program is optimized from a memory management prespective using concepts such as:
 
 ```
-Smart Pointers
-Move Sematics
-The Rule of Five
-RAII(Resource Allocation Is Initialization).
+- Smart Pointers
+- Move Sematics
+- The Rule of Five
+- RAII(Resource Allocation Is Initialization).
 ```
 
 I have completed this project as a part of my [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213)
